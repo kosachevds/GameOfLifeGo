@@ -39,6 +39,7 @@ func (game *Game) RunWithConsole(msDelay int) {
 		go func() {
 			changesChan <- game.createChanges()
 		}()
+		// TODO: do changes while Sleep
 		game.print()
 		changes := <-changesChan
 		if len(changes) == 0 {
@@ -46,7 +47,6 @@ func (game *Game) RunWithConsole(msDelay int) {
 		}
 		game.doChanges(changes)
 		time.Sleep(delayDuration)
-
 	}
 	fmt.Println("Grid is empty or cannot change")
 }
@@ -153,17 +153,8 @@ func (game *Game) countLivingNeighbors(i, j int) int {
 			if iShift == 0 && jShift == 0 {
 				continue
 			}
-
-			rowIndex := (i + iShift) % game.rowCount
-			if rowIndex < 0 {
-				rowIndex += game.rowCount
-			}
-
-			columnIndex := (j + jShift) % game.columnCount
-			if columnIndex < 0 {
-				columnIndex += game.columnCount
-			}
-
+			rowIndex := (game.rowCount + i + iShift) % game.rowCount
+			columnIndex := (game.columnCount + j + jShift) % game.columnCount
 			if game.grid[rowIndex][columnIndex] {
 				count++
 			}
