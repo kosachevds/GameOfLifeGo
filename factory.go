@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func CreateWithGrid(grid [][]bool) (*Game, error) {
+func newGameWithGrid(grid [][]bool) (*Game, error) {
 	rowsCount := len(grid)
 	columnsCount := len(grid[0])
 	for i := range grid[1:] {
@@ -24,7 +24,7 @@ func CreateWithGrid(grid [][]bool) (*Game, error) {
 	}, nil
 }
 
-func CreateWithInt(grid [][]int) (*Game, error) {
+func newGameWithGridInt(grid [][]int) (*Game, error) {
 	boolGrid := make([][]bool, len(grid))
 	for i := range grid {
 		boolGrid[i] = make([]bool, len(grid[i]))
@@ -32,18 +32,18 @@ func CreateWithInt(grid [][]int) (*Game, error) {
 			boolGrid[i][j] = grid[i][j] != 0
 		}
 	}
-	return CreateWithGrid(boolGrid)
+	return newGameWithGrid(boolGrid)
 }
 
-func ReadFromFileWithInt(filename string) (*Game, error) {
+func readGameFromIntFile(filename string) (*Game, error) {
 	grid, err := readGrid(filename, '1')
 	if err != nil {
 		return nil, fmt.Errorf("grid reading error: %e", err)
 	}
-	return CreateWithGrid(grid)
+	return newGameWithGrid(grid)
 }
 
-func CreateRandom(width, height int, livingCellCount int) *Game {
+func newGameRandom(width, height int, livingCellCount int) *Game {
 	rand.Seed(time.Now().UTC().UnixNano())
 	game := newGame(width, height)
 	currentLivingCount := 0

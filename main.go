@@ -6,6 +6,6 @@ func main() {
 	// 	fmt.Println(err)
 	// 	return
 	// }
-	game := CreateRandom(40, 20, 200)
+	game := newGameRandom(40, 20, 200)
 	game.RunWithConsole(200)
 }
