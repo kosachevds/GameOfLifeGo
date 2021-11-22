@@ -1,4 +1,4 @@
-package gameoflife
+package main
 
 import (
 	"bufio"
